@@ -26,25 +26,25 @@ export function Menu({ onClose, onLeave }: MenuProps): React.ReactElement {
         <View fullscreen flex center backdrop style={styles.menu}>
             <Box style={styles.box}>
                 {/* Share */}
-                <Text style={styles.sectionTitle}>Share</Text>
+                <Text style={styles.sectionTitle}>Partager</Text>
                 <Space size="xxs" />
-                <Text style={styles.sectionDescription}>Copy this link to play with your friends.</Text>
+                <Text style={styles.sectionDescription}>Copiez ce lien pour jouer avec vos amis.</Text>
                 <Space size="xxs" />
                 <View flex center>
                     <Input ref={inputRef} value={roomURL} />
                     <Inline size="xs" />
-                    <Button text="Copy" style={{ width: 'fit-content' }} onClick={copyToClipboard} />
+                    <Button text="Copier" style={{ width: 'fit-content' }} onClick={copyToClipboard} />
                 </View>
                 <Space size="m" />
 
                 {/* Keys */}
-                <Text style={styles.sectionTitle}>Keys</Text>
+                <Text style={styles.sectionTitle}>Touches</Text>
                 <Space size="xxs" />
-                <Text style={styles.sectionDescription}>The list of keys to play the game.</Text>
+                <Text style={styles.sectionDescription}>La liste des touches pour jouer.</Text>
                 <Space size="s" />
 
                 {/* Keys: Move */}
-                <Text style={styles.sectionKey}>Move:</Text>
+                <Text style={styles.sectionKey}>Se déplacer :</Text>
                 <Space size="xxs" />
                 <View flex>
                     <KeyboardKey value="W" />
@@ -56,7 +56,7 @@ export function Menu({ onClose, onLeave }: MenuProps): React.ReactElement {
                     <KeyboardKey value="D" />
                     <Inline size="xxs" />
 
-                    <Text>or</Text>
+                    <Text>ou</Text>
 
                     <Inline size="xxs" />
                     <KeyboardKey value="↑" />
@@ -70,29 +70,29 @@ export function Menu({ onClose, onLeave }: MenuProps): React.ReactElement {
                 <Space size="s" />
 
                 {/* Keys: Aim */}
-                <Text style={styles.sectionKey}>Aim:</Text>
+                <Text style={styles.sectionKey}>Viser :</Text>
                 <Space size="xxs" />
                 <View flex>
-                    <KeyboardKey value="Mouse" />
+                    <KeyboardKey value="Souris" />
                 </View>
                 <Space size="s" />
 
                 {/* Keys: Shoot */}
-                <Text style={styles.sectionKey}>Shoot:</Text>
+                <Text style={styles.sectionKey}>Tirer :</Text>
                 <Space size="xxs" />
                 <View flex>
-                    <KeyboardKey value="Left click" />
+                    <KeyboardKey value="Clic gauche" />
                     <Inline size="xxs" />
 
-                    <Text>or</Text>
+                    <Text>ou</Text>
 
                     <Inline size="xxs" />
-                    <KeyboardKey value="Space" />
+                    <KeyboardKey value="Espace" />
                 </View>
                 <Space size="s" />
 
                 {/* Keys: Leaderboard */}
-                <Text style={styles.sectionKey}>Leaderboard:</Text>
+                <Text style={styles.sectionKey}>Classement :</Text>
                 <Space size="xxs" />
                 <View flex>
                     <KeyboardKey value="Tab" />
@@ -100,20 +100,20 @@ export function Menu({ onClose, onLeave }: MenuProps): React.ReactElement {
                 <Space size="s" />
 
                 {/* Keys: Menu */}
-                <Text style={styles.sectionKey}>Menu:</Text>
+                <Text style={styles.sectionKey}>Menu :</Text>
                 <Space size="xxs" />
                 <View flex>
-                    <KeyboardKey value="Escape" />
+                    <KeyboardKey value="Échap" />
                 </View>
                 <Space size="m" />
 
                 <View flex>
                     <Button onClick={onLeave} icon={ArrowLeft}>
-                        Leave
+                        Quitter
                     </Button>
                     <Inline size="xxs" />
                     <Button reversed onClick={onClose}>
-                        Close
+                        Fermer
                     </Button>
                 </View>
             </Box>

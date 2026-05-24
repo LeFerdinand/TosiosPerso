@@ -1,12 +1,8 @@
 import React, { CSSProperties, ReactNode } from 'react';
 
-const BOX = {
-    background: '#FFFFFF',
-    boxShadow: '0 8px 16px rgba(9,30,66,.5)',
-    border: '1px solid rgba(9,30,66,.5)',
-    borderRadius: 8,
-    padding: 16,
-    overflow: 'hidden',
+const BOX: CSSProperties = {
+    padding: 28,
+    overflow: 'visible',
 };
 
 export function Box(props: { style?: CSSProperties; children: ReactNode }): React.ReactElement {
@@ -14,12 +10,15 @@ export function Box(props: { style?: CSSProperties; children: ReactNode }): Reac
 
     return (
         <div
+            className="pixel-frame"
             style={{
                 ...BOX,
                 ...style,
             }}
         >
             {children}
+            <span className="pixel-corner bl" />
+            <span className="pixel-corner br" />
         </div>
     );
 }

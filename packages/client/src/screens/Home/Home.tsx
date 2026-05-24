@@ -5,7 +5,7 @@ import { Client } from 'colyseus.js';
 import { RoomAvailable } from 'colyseus.js/lib/Room';
 import qs from 'querystringify';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Separator, Space, View } from '../../components';
+import { Box, Separator, Space } from '../../components';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { NameField } from './components/NameField';
@@ -19,9 +19,6 @@ export function HomeScreen({ navigate }: HomeScreenProps) {
     const clientRef = useRef<Client>();
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    //
-    // Lifecycle
-    //
     useEffect(() => {
         try {
             const host = window.document.location.host.replace(/:.*/, '');
@@ -43,9 +40,6 @@ export function HomeScreen({ navigate }: HomeScreenProps) {
         };
     }, []);
 
-    //
-    // Utils
-    //
     async function updateRooms() {
         if (!clientRef.current) {
             return;
@@ -55,9 +49,6 @@ export function HomeScreen({ navigate }: HomeScreenProps) {
         setRooms(rooms);
     }
 
-    //
-    // Handlers
-    //
     function handleRoomCreate(name: string, maxPlayers: number, map: string, mode: GameMode) {
         const playerName = localStorage.getItem('playerName') || '';
 
@@ -77,33 +68,31 @@ export function HomeScreen({ navigate }: HomeScreenProps) {
     }
 
     return (
-        <View
-            flex
-            center
-            style={{
-                padding: 32,
-                flexDirection: 'column',
-            }}
-        >
-            <Header />
-            <Space size="m" />
-            <NameField />
-            <Space size="m" />
-            <Box
+        <div style={{ position: 'relative', minHeight: '100%', zIndex: 1 }}>
+            <Header active="jeux" />
+
+            <main
                 style={{
-                    width: 500,
-                    maxWidth: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    padding: '40px 24px 24px',
                 }}
             >
-                <NewGameField onCreate={handleRoomCreate} />
-                <Space size="xxs" />
-                <Separator />
-                <Space size="xxs" />
-                <RoomsList rooms={rooms} onRoomClick={handleRoomClick} />
-                <Space size="xxs" />
-            </Box>
-            <Space size="m" />
-            <Footer />
-        </View>
+                <div style={{ width: '100%', maxWidth: 560 }}>
+                    <NameField />
+                    <Space size="m" />
+                    <Box>
+                        <NewGameField onCreate={handleRoomCreate} />
+                        <Space size="s" />
+                        <Separator />
+                        <Space size="s" />
+                        <RoomsList rooms={rooms} onRoomClick={handleRoomClick} />
+                    </Box>
+                    <Space size="m" />
+                    <Footer />
+                </div>
+            </main>
+        </div>
     );
 }

@@ -12,6 +12,7 @@ import {
     Text,
     View,
 } from '../../../../components';
+import { mapLabel, teamLabel } from '../../../../utils/labels';
 
 /**
  * A leaderboard of all players.
@@ -31,9 +32,9 @@ export function Leaderboard(props: {
             <Box style={styles.box}>
                 {/* Header */}
                 <View>
-                    <RoomFieldItem title="Title" content={`"${roomName}"`} />
+                    <RoomFieldItem title="Titre" content={`"${roomName}"`} />
                     <Space size="xxs" />
-                    <RoomFieldItem title="Map" content={`"${mapName}"`} />
+                    <RoomFieldItem title="Carte" content={`"${mapLabel(mapName)}"`} />
                 </View>
                 <Space size="xs" />
                 <Separator />
@@ -113,10 +114,10 @@ function PlayersListHeader(props: { team?: Types.Teams }): React.ReactElement {
                 <Text style={textStyle}>#</Text>
             </TableHeader>
             <TableHeader>
-                <Text style={textStyle}>Name</Text>
+                <Text style={textStyle}>{team ? `Équipe ${teamLabel(team)}` : 'Nom'}</Text>
             </TableHeader>
             <TableHeader>
-                <Text style={textStyle}>Kills</Text>
+                <Text style={textStyle}>Éliminations</Text>
             </TableHeader>
         </TableRow>
     );
@@ -154,7 +155,7 @@ function PlayerListItem(props: { index: number; player: Models.PlayerJSON; playe
                 <Text style={style}>{`${index + 1}`}</Text>
             </TableCell>
             <TableCell>
-                <Text style={style}>{isMe ? 'You' : player.name}</Text>
+                <Text style={style}>{isMe ? 'Vous' : player.name}</Text>
             </TableCell>
             <TableCell>
                 <Text style={style}>{player.kills}</Text>

@@ -236,16 +236,16 @@ export function GameScreen({ navigate, location, roomId }: GameScreenProps) {
         let announce: string | undefined;
         switch (type) {
             case 'waiting':
-                announce = `Waiting for other players...`;
+                announce = `En attente d’autres joueurs...`;
                 break;
             case 'start':
-                announce = `Game starts`;
+                announce = `La partie commence`;
                 break;
             case 'won':
-                announce = `${message.params.name} wins!`;
+                announce = `${message.params.name} a gagné !`;
                 break;
             case 'timeout':
-                announce = `Timeout...`;
+                announce = `Temps écoulé...`;
                 break;
             default:
                 break;

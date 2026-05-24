@@ -1,6 +1,10 @@
 import { ArraySchema, MapSchema, Schema, type } from '@colyseus/schema';
 import { Bullet, Game, Monster, Player, Prop } from '../entities';
 import { Collisions, Constants, Entities, Geometry, Maps, Maths, Models, Tiled, Types } from '@tosios/common';
+import * as fs from 'fs';
+import { join } from 'path';
+
+const CUSTOM_MAPS_DIR = join(__dirname, '../../data/maps');
 
 export class GameState extends Schema {
     @type(Game)
@@ -160,7 +164,20 @@ export class GameState extends Schema {
     // Map
     //
     initializeMap = (mapName: string) => {
-        const data = Maps.List[mapName];
+        let data: any = Maps.List[mapName];
+
+        // Fallback: try the custom maps folder on disk
+        if (!data) {
+            const customPath = join(CUSTOM_MAPS_DIR, `${mapName}.json`);
+            if (fs.existsSync(customPath)) {
+                data = JSON.parse(fs.readFileSync(customPath, 'utf-8'));
+            }
+        }
+
+        if (!data) {
+            throw new Error(`Map "${mapName}" not found (neither built-in nor custom).`);
+        }
+
         const tiledMap = new Tiled.Map(data, Constants.TILE_SIZE);
 
         // Set the map boundaries
@@ -450,7 +467,7 @@ export class GameState extends Schema {
                     from: 'server',
                     ts: Date.now(),
                     params: {
-                        killerName: 'A bat',
+                        killerName: 'Une chauve-souris',
                         killedName: player.name,
                     },
                 });

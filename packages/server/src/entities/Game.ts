@@ -144,7 +144,7 @@ export class Game extends Schema {
                     from: 'server',
                     ts: Date.now(),
                     params: {
-                        name: team === 'Red' ? 'Red team' : 'Blue team',
+                        name: team === 'Red' ? 'L’équipe Rouge' : 'L’équipe Bleue',
                     },
                 });
                 this.startLobby();

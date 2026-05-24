@@ -2,6 +2,7 @@ import React, { CSSProperties } from 'react';
 import { isMobile } from 'react-device-detect';
 import { Container } from '.';
 import { Space, Text } from '../../../../components';
+import { gameModeLabel } from '../../../../utils/labels';
 
 /**
  * Render the time left in current game mode.
@@ -34,7 +35,7 @@ export const Time = React.memo((props: { mode: string; endsAt: number; style?: C
                 ...style,
             }}
         >
-            <Text style={styles.modeText}>{mode}</Text>
+            <Text style={styles.modeText}>{gameModeLabel(mode)}</Text>
             <Space size="xs" />
             <Text style={styles.timeText}>{timeText}</Text>
         </Container>

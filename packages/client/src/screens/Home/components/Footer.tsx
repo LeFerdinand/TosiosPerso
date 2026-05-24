@@ -1,26 +1,24 @@
 import React from 'react';
 import { version } from '../../../../../../package.json';
-import { Inline, View } from '../../../components';
-import { Text } from '../../../components/Text';
 import { GitHubIcon } from '../../../icons';
 
-const URL = 'https://github.com/halftheopposite/tosios';
+const URL = 'https://github.com/LeFerdinand/TosiosPerso';
 
 export function Footer(): React.ReactElement {
     return (
         <a href={URL}>
-            <View
-                flex
-                center
+            <div
+                className="site-footer"
                 style={{
-                    color: 'white',
-                    fontSize: 14,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
                 }}
             >
                 <GitHubIcon />
-                <Inline size="xxs" />
-                <Text>GitHub (v{version})</Text>
-            </View>
+                <span>GITHUB (v{version})</span>
+            </div>
         </a>
     );
 }

@@ -1,11 +1,8 @@
 import { Constants } from '@tosios/common';
 import React, { useState } from 'react';
-import { Box, Button, Inline, Input, Space, Text, View } from '../../../components';
-import { playerImage } from '../../../images';
+import { Box, Button, Input, Space } from '../../../components';
 
-interface NameFieldProps {}
-
-export function NameField({}: NameFieldProps) {
+export function NameField() {
     const [name, setName] = useState(localStorage.getItem('playerName') || '');
     const [changed, setChanged] = useState(false);
 
@@ -20,23 +17,13 @@ export function NameField({}: NameFieldProps) {
     }
 
     return (
-        <Box
-            style={{
-                width: 500,
-                maxWidth: '100%',
-            }}
-        >
-            <View flex>
-                <img src={playerImage} alt="player" width={30} />
-                <Inline size="thin" />
-                <Text>Pick your name:</Text>
-            </View>
-            <Space size="xs" />
-            <Input value={name} placeholder="Name" maxLength={Constants.PLAYER_NAME_MAX} onChange={handleChange} />
+        <Box>
+            <label className="field-label">Choisissez votre pseudo</label>
+            <Input value={name} placeholder="Pseudo" maxLength={Constants.PLAYER_NAME_MAX} onChange={handleChange} />
             {changed && (
                 <>
                     <Space size="xs" />
-                    <Button title="Save" text="Save" onClick={handleSave} />
+                    <Button title="Enregistrer" text="Enregistrer" onClick={handleSave} />
                 </>
             )}
         </Box>

@@ -1,21 +1,22 @@
 import { Constants } from '@tosios/common';
 import { GameMode } from '@tosios/common/src/types';
 import React, { useState } from 'react';
-import { Button, Input, ListItem, Select, Space, Text, View } from '../../../components';
+import { Button, Input, ListItem, Select, Space, View } from '../../../components';
+import { gameModeLabel, mapLabel } from '../../../utils/labels';
 
 const MapsList: ListItem[] = Constants.MAPS_NAMES.map((value) => ({
     value,
-    title: value,
+    title: mapLabel(value),
 }));
 
 const PlayersCountList: ListItem[] = Constants.ROOM_PLAYERS_SCALES.map((value) => ({
     value,
-    title: `${value} players`,
+    title: `${value} joueurs`,
 }));
 
 const GameModesList: ListItem[] = Constants.GAME_MODES.map((value) => ({
     value,
-    title: value,
+    title: gameModeLabel(value),
 }));
 
 interface NewGameFieldProps {
@@ -43,72 +44,61 @@ export function NewGameField({ onCreate }: NewGameFieldProps) {
         setOpened(false);
     }
 
+    if (!opened) {
+        return (
+            <Button
+                title="Créer une nouvelle partie"
+                text="+ Nouvelle partie"
+                onClick={() => setOpened(true)}
+            />
+        );
+    }
+
     return (
-        <View
-            flex
-            style={{
-                alignItems: 'flex-start',
-                flexDirection: 'column',
-            }}
-        >
-            {!opened && <Button title="Create new room" text="+ New Room" onClick={() => setOpened(true)} />}
-            {opened && (
-                <View style={{ width: '100%' }}>
-                    {/* Name */}
-                    <Text>Name:</Text>
-                    <Space size="xxs" />
-                    <Input
-                        placeholder="Name"
-                        value={name}
-                        maxLength={Constants.ROOM_NAME_MAX}
-                        onChange={handleRoomNameChange}
-                    />
-                    <Space size="s" />
+        <View style={{ width: '100%' }}>
+            <label className="field-label">Nom de la partie</label>
+            <Input
+                placeholder="Nom"
+                value={name}
+                maxLength={Constants.ROOM_NAME_MAX}
+                onChange={handleRoomNameChange}
+            />
+            <Space size="s" />
 
-                    {/* Map */}
-                    <Text>Map:</Text>
-                    <Space size="xxs" />
-                    <Select
-                        value={map}
-                        values={MapsList}
-                        onChange={(event: any) => {
-                            setMap(event.target.value);
-                        }}
-                    />
-                    <Space size="s" />
+            <label className="field-label">Carte</label>
+            <Select
+                value={map}
+                values={MapsList}
+                onChange={(event: any) => {
+                    setMap(event.target.value);
+                }}
+            />
+            <Space size="s" />
 
-                    {/* Players */}
-                    <Text>Max players:</Text>
-                    <Space size="xxs" />
-                    <Select
-                        value={maxPlayers}
-                        values={PlayersCountList}
-                        onChange={(event: any) => {
-                            setMaxPlayers(event.target.value);
-                        }}
-                    />
-                    <Space size="s" />
+            <label className="field-label">Joueurs max</label>
+            <Select
+                value={maxPlayers}
+                values={PlayersCountList}
+                onChange={(event: any) => {
+                    setMaxPlayers(event.target.value);
+                }}
+            />
+            <Space size="s" />
 
-                    {/* Mode */}
-                    <Text>Game mode:</Text>
-                    <Space size="xxs" />
-                    <Select
-                        value={mode}
-                        values={GameModesList}
-                        onChange={(event: any) => {
-                            setMode(event.target.value);
-                        }}
-                    />
-                    <Space size="s" />
+            <label className="field-label">Mode de jeu</label>
+            <Select
+                value={mode}
+                values={GameModesList}
+                onChange={(event: any) => {
+                    setMode(event.target.value);
+                }}
+            />
+            <Space size="s" />
 
-                    {/* Button */}
-                    <View>
-                        <Button title="Create room" text="Create" onClick={handleCreate} />
-                        <Space size="xs" />
-                        <Button title="Cancel" text="Cancel" reversed onClick={handleCancel} />
-                    </View>
-                </View>
-            )}
+            <View style={{ display: 'flex', gap: 12 }}>
+                <Button title="Créer la partie" text="Créer" onClick={handleCreate} />
+                <Button title="Annuler" text="Annuler" reversed onClick={handleCancel} />
+            </View>
         </View>
     );
 }

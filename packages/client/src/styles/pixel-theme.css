@@ -1,0 +1,144 @@
+/* ============================================================
+ * pixel-theme.css — refonte du header en boutons "3D enfonçables"
+ * style pixel-art / borne d'arcade. Importé APRÈS index.css pour
+ * surcharger les règles existantes sans toucher au HTML.
+ * ============================================================ */
+
+:root {
+    /* Fonds */
+    --pix-bg-darkest: #0a051a;
+    --pix-bg-base: #1a1033;
+    --pix-black: #000;
+
+    /* Texte */
+    --pix-text-default: #f0e7c7;
+    --pix-text-gold: #ffd966;
+    --pix-red: #c0392b;
+
+    /* Violet (onglets normaux) */
+    --pix-purple: #2a1a55;
+    --pix-purple-hover: #3a2a75;
+    --pix-purple-light: #4a3a85;
+    --pix-purple-shadow: #1a0a3a;
+
+    /* Or (onglet actif) */
+    --pix-gold: #ffd966;
+    --pix-gold-light: #fff3a8;
+    --pix-gold-shadow: #b89640;
+
+    --pix-font: 'Courier New', 'Lucida Console', Consolas, monospace;
+}
+
+/* === HEADER : grille 3 colonnes (marque | onglets | spacer) === */
+.site-header {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    column-gap: 24px !important;
+    align-items: center !important;
+    padding: 0 32px !important;
+    background: var(--pix-bg-darkest) !important;
+    /* Sandwich : 2px noir (border-bottom) + 4px or + 2px noir */
+    border-bottom: 2px solid var(--pix-black) !important;
+    box-shadow: 0 4px 0 0 #fed866, 0 6px 0 0 var(--pix-black) !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    font-family: var(--pix-font) !important;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* === MARQUE (à gauche, cliquable visuellement) === */
+.site-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    line-height: 1 !important;
+    padding: 16px 0 !important;
+    grid-column: 1 !important;
+    justify-self: start !important;
+    cursor: pointer;
+    transition: transform 0.05s ease;
+}
+.site-brand:hover {
+    transform: translate(-1px, -1px);
+}
+.site-brand:active {
+    transform: translate(1px, 1px);
+}
+
+.site-brand__title {
+    font-family: var(--pix-font) !important;
+    font-size: 32px !important;
+    font-weight: 900 !important;
+    color: var(--pix-text-gold) !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 var(--pix-red), 4px 4px 0 var(--pix-black) !important;
+}
+
+.site-brand__tagline {
+    font-family: var(--pix-font) !important;
+    margin-top: 6px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    color: var(--pix-text-default) !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 var(--pix-black) !important;
+}
+
+/* === NAV (au centre) === */
+.site-nav {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    grid-column: 2 !important;
+    justify-self: center !important;
+}
+
+/* === ONGLETS PIXEL — état normal (violet 3D) === */
+.site-header .nav-tab,
+.site-nav .nav-tab {
+    font-family: var(--pix-font) !important;
+    font-weight: 900 !important;
+    font-size: 16px !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase;
+    padding: 14px 28px !important;
+    color: var(--pix-text-default) !important;
+    background: var(--pix-purple) !important;
+    text-shadow: 1px 1px 0 var(--pix-black) !important;
+    text-decoration: none !important;
+    display: inline-block;
+    border: none !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+    backdrop-filter: none !important;
+    box-shadow: inset -3px -3px 0 0 var(--pix-purple-shadow), inset 3px 3px 0 0 var(--pix-purple-light),
+        0 0 0 3px var(--pix-black) !important;
+    transition: transform 0.05s ease, box-shadow 0.05s ease, background-color 0.05s ease;
+}
+
+.site-header .nav-tab:hover,
+.site-nav .nav-tab:hover {
+    background: var(--pix-purple-hover) !important;
+}
+
+.site-header .nav-tab:active,
+.site-nav .nav-tab:active {
+    transform: translate(2px, 2px);
+}
+
+/* === ONGLETS PIXEL — état actif (or 3D) === */
+.site-header .nav-tab.active,
+.site-nav .nav-tab.active {
+    background: var(--pix-gold) !important;
+    color: var(--pix-bg-base) !important;
+    text-shadow: 1px 1px 0 rgba(192, 57, 43, 0.6) !important;
+    box-shadow: inset -3px -3px 0 0 var(--pix-gold-shadow), inset 3px 3px 0 0 var(--pix-gold-light),
+        0 0 0 3px var(--pix-black) !important;
+}
+.site-header .nav-tab.active:hover,
+.site-nav .nav-tab.active:hover {
+    background: var(--pix-gold) !important;
+}

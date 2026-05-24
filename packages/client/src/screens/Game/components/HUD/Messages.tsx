@@ -51,21 +51,21 @@ function Message(props: { message: Models.MessageJSON }): React.ReactElement {
 function getFormattedMessage(message: Models.MessageJSON): string {
     switch (message.type) {
         case 'waiting':
-            return 'Waiting for other players...';
+            return 'En attente d’autres joueurs...';
         case 'start':
-            return 'Game starts!';
+            return 'La partie commence !';
         case 'stop':
-            return 'Game ends...';
+            return 'La partie se termine...';
         case 'joined':
-            return `${message.params.name} joins.`;
+            return `${message.params.name} a rejoint la partie.`;
         case 'killed':
-            return `${message.params.killerName} killed ${message.params.killedName}.`;
+            return `${message.params.killerName} a tué ${message.params.killedName}.`;
         case 'won':
-            return `${message.params.name} wins!`;
+            return `${message.params.name} a gagné !`;
         case 'left':
-            return `${message.params.name} left.`;
+            return `${message.params.name} a quitté la partie.`;
         case 'timeout':
-            return `Timeout...`;
+            return `Temps écoulé...`;
         default:
             return '';
     }

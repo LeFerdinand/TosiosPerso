@@ -1,29 +1,23 @@
 import React, { CSSProperties } from 'react';
 
-const SEPARATOR = {
-    backgroundColor: '#efefef',
-};
-
 const HORIZONTAL: CSSProperties = {
-    height: 2,
-    minHeight: 2,
+    height: 3,
+    minHeight: 3,
+    width: '100%',
+    backgroundColor: 'var(--gold-shadow)',
+    boxShadow: '0 2px 0 0 #000',
 };
 
 const VERTICAL: CSSProperties = {
-    width: 2,
-    minWidth: 2,
+    width: 3,
+    minWidth: 3,
+    backgroundColor: 'var(--gold-shadow)',
+    boxShadow: '2px 0 0 0 #000',
     display: 'inline-block',
 };
 
 export function Separator(props: { mode?: 'vertical' | 'horizontal' }): React.ReactElement {
     const { mode = 'horizontal' } = props;
 
-    return (
-        <div
-            style={{
-                ...SEPARATOR,
-                ...(mode === 'horizontal' ? HORIZONTAL : VERTICAL),
-            }}
-        />
-    );
+    return <div style={mode === 'horizontal' ? HORIZONTAL : VERTICAL} />;
 }

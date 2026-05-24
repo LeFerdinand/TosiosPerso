@@ -16,7 +16,7 @@ export const Players = React.memo(
         onMenuClicked: () => void;
     }): React.ReactElement => {
         const { count, maxCount, style, onMenuClicked: onMenuPressed } = props;
-        const playersText = isMobile ? `${count}/${maxCount}` : `Players (${count}/${maxCount})`;
+        const playersText = isMobile ? `${count}/${maxCount}` : `Joueurs (${count}/${maxCount})`;
 
         return (
             <Container
