@@ -13,12 +13,37 @@ const PORT = Number(process.env.PORT || Constants.WS_PORT);
 const PUBLIC_DIR = join(__dirname, '../../client/public');
 const MAPS_DIR = join(__dirname, '../data/maps');
 
+// Préfixe pour servir le jeu sous un sous-chemin (ex: "/tosios"). Sans valeur
+// le jeu est servi à la racine "/". On normalise pour ne pas garder de slash
+// final, et on accepte aussi bien "/tosios" que "tosios".
+const RAW_BASE_PATH = process.env.BASE_PATH || '';
+const BASE_PATH = RAW_BASE_PATH
+    ? (RAW_BASE_PATH.startsWith('/') ? RAW_BASE_PATH : `/${RAW_BASE_PATH}`).replace(/\/+$/, '')
+    : '';
+
 // Dossier des cartes custom
 if (!fs.existsSync(MAPS_DIR)) {
     fs.mkdirSync(MAPS_DIR, { recursive: true });
 }
 
 const app = express();
+
+// Si BASE_PATH est défini et que la requête arrive AVEC ce préfixe (c'est-à-dire
+// qu'aucun reverse-proxy n'a déjà strippé le préfixe), on le retire pour que les
+// routes Express / Colyseus matchent comme à la racine. En prod derrière Nginx
+// avec proxy_pass "http://host/", ce middleware sera no-op (le préfixe a déjà
+// disparu à l'arrivée). En local sans Nginx, il fait le travail à la place.
+if (BASE_PATH) {
+    app.use((req, _res, next) => {
+        if (req.url === BASE_PATH) {
+            req.url = '/';
+        } else if (req.url.startsWith(`${BASE_PATH}/`)) {
+            req.url = req.url.slice(BASE_PATH.length);
+        }
+        next();
+    });
+}
+
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 app.use(compression());
@@ -121,14 +146,28 @@ app.post('/api/maps', (req, res) => {
 });
 
 // Serve static resources from the "public" folder
-app.use(express.static(PUBLIC_DIR));
+app.use(express.static(PUBLIC_DIR, { index: false }));
 
 // If you don't want people accessing your server stats, comment this line.
 app.use('/colyseus', monitor(server as Partial<MonitorOptions>));
 
-// Serve the frontend client
+// Sert un index.html "templaté" : on remplace __BASE_PATH__ par la valeur réelle
+// pour que les chemins (assets, base href, etc.) soient corrects sous le préfixe.
+const indexHtmlPath = join(PUBLIC_DIR, 'index.html');
+let indexHtmlCache: string | null = null;
+
+function renderIndexHtml(): string {
+    if (indexHtmlCache === null) {
+        indexHtmlCache = fs.readFileSync(indexHtmlPath, 'utf-8');
+    }
+    const baseHref = BASE_PATH ? `${BASE_PATH}/` : '/';
+    // __BASE_PATH__ inclus dans le HTML est remplacé par "/tosios" sans slash final
+    // (les chemins l'écrivent comme "__BASE_PATH__/script.js" pour faire "/tosios/script.js")
+    return indexHtmlCache.replace(/__BASE_PATH__/g, BASE_PATH).replace(/__BASE_HREF__/g, baseHref);
+}
+
 app.get('*', (_req: any, res: any) => {
-    res.sendFile(join(PUBLIC_DIR, 'index.html'));
+    res.type('html').send(renderIndexHtml());
 });
 
 server.onShutdown(() => {
@@ -136,5 +175,8 @@ server.onShutdown(() => {
 });
 
 server.listen(PORT);
-console.log(`Listening on ws://localhost:${PORT}`);
+console.log(`Listening on ws://localhost:${PORT}${BASE_PATH || ''}`);
 console.log(`Custom maps directory: ${MAPS_DIR}`);
+if (BASE_PATH) {
+    console.log(`Serving with BASE_PATH="${BASE_PATH}"`);
+}

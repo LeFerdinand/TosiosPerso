@@ -78,7 +78,8 @@ export function GameScreen({ navigate, location, roomId }: GameScreenProps) {
         try {
             const host = window.document.location.host.replace(/:.*/, '');
             const port = process.env.NODE_ENV !== 'production' ? Constants.WS_PORT : window.location.port;
-            const url = `${window.location.protocol.replace('http', 'ws')}//${host}${port ? `:${port}` : ''}`;
+            const basePath = process.env.BASE_PATH || '';
+            const url = `${window.location.protocol.replace('http', 'ws')}//${host}${port ? `:${port}` : ''}${basePath}`;
 
             clientRef.current = new Client(url);
             if (isNewRoom) {

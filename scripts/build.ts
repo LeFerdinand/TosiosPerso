@@ -19,6 +19,7 @@ export async function buildClient() {
         outfile: 'packages/client/public/script.js',
         define: {
             'process.env.NODE_ENV': `"${process.env.BUILD_MODE}"`,
+            'process.env.BASE_PATH': JSON.stringify(process.env.BASE_PATH || ''),
         },
         assetNames: 'assets/[name]-[hash]',
         loader: {
