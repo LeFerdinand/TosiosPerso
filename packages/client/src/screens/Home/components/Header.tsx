@@ -20,10 +20,10 @@ export function Header({ active = 'jeux', titleSuffix = 'Accueil' }: HeaderProps
             </Helmet>
 
             <header className="site-header">
-                <div className="site-brand">
+                <a className="site-brand" href="https://lataniereplay.fr/">
                     <span className="site-brand__title">Tosios</span>
                     <span className="site-brand__tagline">La Tanière</span>
-                </div>
+                </a>
 
                 <nav className="site-nav">
                     <Link to="/" className={`nav-tab${active === 'jeux' ? ' active' : ''}`}>
