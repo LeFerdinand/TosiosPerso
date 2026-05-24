@@ -1,6 +1,12 @@
-FROM node:14.18.2-alpine
+FROM node:18-alpine
 
 WORKDIR /usr/src/app
+
+# Préfixe sous lequel le jeu est servi (vide = racine /). Passé au build pour
+# être baked dans le bundle client (esbuild define) ET propagé à l'env runtime
+# pour que le serveur Express injecte la bonne base href dans index.html.
+ARG BASE_PATH=""
+ENV BASE_PATH=$BASE_PATH
 
 # Dependencies
 COPY ./package.json .
@@ -13,11 +19,11 @@ RUN yarn
 # Files
 COPY . .
 
-# Build
+# Build (BASE_PATH baked dans le bundle si défini)
 RUN BUILD_MODE=production yarn build
 
-# Port
+# Port (interne au container)
 EXPOSE 3001
 
-# Serve
+# Serve (BASE_PATH propagé via ENV ci-dessus)
 CMD [ "yarn", "serve" ]
